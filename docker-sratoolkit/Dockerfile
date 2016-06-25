@@ -12,7 +12,7 @@ RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
 RUN echo "#!/bin/sh" > /usr/local/bin/sra2s3.sh && \
     echo "fastq-dump --split-3 --gzip \$1" >> /usr/local/bin/sra2s3.sh && \
-    echo "aws s3 cp --region=us-west-2 \${1}* \${2}/" >> /usr/local/bin/sra2s3.sh && \
+    echo "for i in \$1*gz; do aws --region=us-west-2 s3 cp \$i \${2}/; done" >> /usr/local/bin/sra2s3.sh && \
     chmod +x /usr/local/bin/sra2s3.sh
 
 # Default command
